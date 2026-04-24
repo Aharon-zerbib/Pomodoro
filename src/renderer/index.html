@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="settings">
+            <div class="setting-group">
+                <label>Travail</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="work-input" data-action="minus">−</button>
+                    <input type="number" id="work-input" value="25" min="1" max="60">
+                    <button class="adjust" data-target="work-input" data-action="plus">+</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label>Pause Courte</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="short-input" data-action="minus">−</button>
+                    <input type="number" id="short-input" value="5" min="1" max="30">
+                    <button class="adjust" data-target="short-input" data-action="plus">+</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label>Pause Longue</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="long-input" data-action="minus">−</button>
+                    <input type="number" id="long-input" value="15" min="1" max="60">
+                    <button class="adjust" data-target="long-input" data-action="plus">+</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label>Cycles</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="cycles-input" data-action="minus">−</button>
+                    <input type="number" id="cycles-input" value="4" min="1" max="10">
+                    <button class="adjust" data-target="cycles-input" data-action="plus">+</button>
+                </div>
+            </div>
+        </div>
+
+        <h1 id="status">Travail</h1>
+        <div class="timer-display">
+            <span id="minutes">25</span>:<span id="seconds">00</span>
+        </div>
+        <div class="controls">
+            <button id="start">Démarrer</button>
+            <button id="pause" class="hidden">Pause</button>
+            <button id="reset">Réinitialiser</button>
+        </div>
+    </div>
+    <script src="../../dist/renderer/renderer.js"></script>
+</body>
+</html>
