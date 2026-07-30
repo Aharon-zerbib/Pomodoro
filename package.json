@@ -1,6 +1,6 @@
 {
   "name": "pomodoro-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Une application Pomodoro minimaliste et élégante pour Windows",
   "main": "dist/main/main.js",
   "author": "Ronron",

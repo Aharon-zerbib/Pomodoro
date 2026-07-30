@@ -21,7 +21,7 @@ Une application Pomodoro minimaliste, élégante et ultra-épurée conçue pour 
 
 Vous pouvez télécharger la dernière version de l'application dans la section [Releases](https://github.com/votre-utilisateur/votre-depot/releases).
 
-1. Téléchargez le fichier `Pomodoro-Setup-1.0.0.exe`.
+1. Téléchargez le fichier `Pomodoro Setup 1.0.1.exe`.
 2. Lancez l'installateur.
 3. L'application sera installée et un raccourci sera créé sur votre bureau.
 

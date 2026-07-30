@@ -9,6 +9,9 @@ function createWindow() {
       preload: path.join(__dirname, '../preload/preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
+      // Le Pomodoro doit continuer à déclencher ses mises à jour et alertes
+      // même si la fenêtre est masquée ou passe à l'arrière-plan.
+      backgroundThrottling: false,
     },
     resizable: true,
     frame: false,

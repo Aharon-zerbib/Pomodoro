@@ -18,6 +18,7 @@ const resetBtn = document.getElementById('reset') as HTMLButtonElement;
 
 let timeLeft = parseInt(workInput.value) * 60;
 let timerId: any = null;
+let endTime: number | null = null;
 let currentCycle = 1;
 let mode = 'WORK';
 
@@ -40,6 +41,11 @@ function updateDisplay() {
     else statusText = "Pause Longue";
     
     statusDisplay.textContent = statusText;
+}
+
+function refreshTimeLeft() {
+    if (endTime === null) return;
+    timeLeft = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
 }
 
 function nextMode() {
@@ -74,6 +80,10 @@ function nextMode() {
 function startTimer() {
     if (timerId) return;
 
+    // On se base sur une heure de fin réelle : les timers de Chromium peuvent
+    // être ralentis lorsque la fenêtre est en arrière-plan.
+    endTime = Date.now() + timeLeft * 1000;
+
     workInput.disabled = true;
     shortInput.disabled = true;
     longInput.disabled = true;
@@ -84,23 +94,28 @@ function startTimer() {
     pauseBtn.classList.remove('hidden');
 
     timerId = setInterval(() => {
+        refreshTimeLeft();
+
         if (timeLeft > 0) {
-            timeLeft--;
             updateDisplay();
         } else {
             clearInterval(timerId);
             timerId = null;
+            endTime = null;
             nextMode();
             startTimer();
         }
-    }, 1000);
+    }, 250);
 }
 
 function pauseTimer() {
+    refreshTimeLeft();
     if (timerId) {
         clearInterval(timerId);
         timerId = null;
     }
+    endTime = null;
+    updateDisplay();
     startBtn.classList.remove('hidden');
     pauseBtn.classList.add('hidden');
 }
@@ -115,6 +130,7 @@ function resetTimer() {
     
     mode = 'WORK';
     currentCycle = 1;
+    endTime = null;
     timeLeft = getDuration('WORK');
     updateDisplay();
 }
