@@ -15,12 +15,73 @@ const statusDisplay = document.getElementById('status') as HTMLHeadingElement;
 const startBtn = document.getElementById('start') as HTMLButtonElement;
 const pauseBtn = document.getElementById('pause') as HTMLButtonElement;
 const resetBtn = document.getElementById('reset') as HTMLButtonElement;
+const musicPlayer = document.querySelector('.music-player') as HTMLDivElement;
+const musicToggle = document.getElementById('music-toggle') as HTMLButtonElement;
+const musicVolume = document.getElementById('music-volume') as HTMLInputElement;
+const musicTrack = document.getElementById('music-track') as HTMLSpanElement;
 
 let timeLeft = parseInt(workInput.value) * 60;
 let timerId: any = null;
 let endTime: number | null = null;
 let currentCycle = 1;
 let mode = 'WORK';
+let musicPlaying = false;
+let currentTrackSource: string | null = null;
+
+type MusicTrack = { title: string; source: string };
+let musicTracks: MusicTrack[] = [];
+let backgroundMusic = new Audio();
+
+async function loadMusicTracks() {
+    try {
+        musicTracks = await api.getMusicTracks();
+        musicToggle.disabled = musicTracks.length === 0;
+        if (musicTracks.length > 0) musicTrack.textContent = 'Radio Café';
+        else musicTrack.textContent = 'Aucun morceau disponible';
+    } catch {
+        musicToggle.disabled = true;
+        musicTrack.textContent = 'Radio indisponible';
+    }
+}
+
+function pickRandomTrack(): boolean {
+    if (musicTracks.length === 0) return false;
+    const choices = musicTracks.filter(track => track.source !== currentTrackSource);
+    const track = choices[Math.floor(Math.random() * choices.length)];
+
+    backgroundMusic.pause();
+    backgroundMusic = new Audio(track.source);
+    backgroundMusic.loop = false;
+    backgroundMusic.volume = Number(musicVolume.value) / 100;
+    currentTrackSource = track.source;
+    musicTrack.textContent = track.title;
+    backgroundMusic.addEventListener('ended', () => {
+        if (musicPlaying) startMusic();
+    });
+    return true;
+}
+
+async function startMusic() {
+    if (!pickRandomTrack()) return;
+    updateMusicVolume();
+    await backgroundMusic.play();
+    musicPlaying = true;
+    musicToggle.textContent = '❚❚ Pause';
+    musicToggle.setAttribute('aria-pressed', 'true');
+    musicPlayer.classList.add('playing');
+}
+
+async function stopMusic() {
+    backgroundMusic.pause();
+    musicPlaying = false;
+    musicToggle.textContent = '▶ Écouter';
+    musicToggle.setAttribute('aria-pressed', 'false');
+    musicPlayer.classList.remove('playing');
+}
+
+function updateMusicVolume() {
+    backgroundMusic.volume = Number(musicVolume.value) / 100;
+}
 
 function getDuration(m: string) {
     if (m === 'WORK') return parseInt(workInput.value) * 60;
@@ -169,5 +230,11 @@ cyclesInput.addEventListener('change', onInputChange);
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 if (resetBtn) resetBtn.addEventListener('click', resetTimer);
+musicToggle.addEventListener('click', () => {
+    if (musicPlaying) stopMusic();
+    else startMusic();
+});
+musicVolume.addEventListener('input', updateMusicVolume);
 
 updateDisplay();
+void loadMusicTracks();

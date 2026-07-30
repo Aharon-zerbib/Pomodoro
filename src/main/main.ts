@@ -1,5 +1,25 @@
 import { app, BrowserWindow, ipcMain, Notification } from 'electron';
+import * as fs from 'fs';
 import * as path from 'path';
+import { pathToFileURL } from 'url';
+
+function getMusicTracks() {
+  const musicFolder = path.join(app.getAppPath(), 'musique');
+  const supportedExtensions = new Set(['.mp3', '.m4a', '.ogg', '.wav']);
+
+  try {
+    return fs.readdirSync(musicFolder)
+      .filter(file => supportedExtensions.has(path.extname(file).toLowerCase()))
+      .map(file => ({
+        title: path.basename(file, path.extname(file))
+          .replace(/[-_]/g, ' ')
+          .replace(/\s*\(\d+\)$/, ''),
+        source: pathToFileURL(path.join(musicFolder, file)).toString()
+      }));
+  } catch {
+    return [];
+  }
+}
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -38,3 +58,5 @@ app.on('window-all-closed', () => {
 ipcMain.on('notify', (_, { title, body }) => {
   new Notification({ title, body }).show();
 });
+
+ipcMain.handle('get-music-tracks', () => getMusicTracks());

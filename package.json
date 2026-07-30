@@ -1,6 +1,6 @@
 {
   "name": "pomodoro-app",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "Une application Pomodoro minimaliste et élégante pour Windows",
   "main": "dist/main/main.js",
   "author": "Ronron",
@@ -22,7 +22,8 @@
       "src/renderer/index.html",
       "src/renderer/styles.css",
       "MondiaPupu.m4a",
-      "cafe.png"
+      "cafe.png",
+      "musique/**/*"
     ],
     "win": {
       "target": "nsis",

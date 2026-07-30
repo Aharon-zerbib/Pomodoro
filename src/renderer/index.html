@@ -7,51 +7,98 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="settings">
-            <div class="setting-group">
-                <label>Travail</label>
-                <div class="number-control">
-                    <button class="adjust" data-target="work-input" data-action="minus">−</button>
-                    <input type="number" id="work-input" value="25" min="1" max="60">
-                    <button class="adjust" data-target="work-input" data-action="plus">+</button>
+    <div class="app-shell">
+        <header class="brand">
+            <div class="brand-lockup">
+                <div class="brand-mark">☕</div>
+                <div>
+                    <p class="eyebrow">Rituel de concentration</p>
+                    <p class="brand-name">Café Focus</p>
                 </div>
             </div>
-            <div class="setting-group">
-                <label>Pause Courte</label>
-                <div class="number-control">
-                    <button class="adjust" data-target="short-input" data-action="minus">−</button>
-                    <input type="number" id="short-input" value="5" min="1" max="30">
-                    <button class="adjust" data-target="short-input" data-action="plus">+</button>
-                </div>
-            </div>
-            <div class="setting-group">
-                <label>Pause Longue</label>
-                <div class="number-control">
-                    <button class="adjust" data-target="long-input" data-action="minus">−</button>
-                    <input type="number" id="long-input" value="15" min="1" max="60">
-                    <button class="adjust" data-target="long-input" data-action="plus">+</button>
-                </div>
-            </div>
-            <div class="setting-group">
-                <label>Cycles</label>
-                <div class="number-control">
-                    <button class="adjust" data-target="cycles-input" data-action="minus">−</button>
-                    <input type="number" id="cycles-input" value="4" min="1" max="10">
-                    <button class="adjust" data-target="cycles-input" data-action="plus">+</button>
-                </div>
-            </div>
-        </div>
+            <p class="welcome">Prenez le temps d’un bon café.</p>
+        </header>
 
-        <h1 id="status">Travail</h1>
-        <div class="timer-display">
-            <span id="minutes">25</span>:<span id="seconds">00</span>
-        </div>
-        <div class="controls">
-            <button id="start">Démarrer</button>
-            <button id="pause" class="hidden">Pause</button>
-            <button id="reset">Réinitialiser</button>
-        </div>
+        <main class="focus-layout">
+            <aside class="mascot-panel">
+                <div class="coffee-ring ring-one"></div>
+                <div class="coffee-ring ring-two"></div>
+                <img class="mascot" src="../../cafe.png" alt="Mascotte tasse de café">
+                <div class="mascot-copy">
+                    <p class="eyebrow">Votre compagnon</p>
+                    <h2>Une pause à la fois.</h2>
+                    <p>Installez-vous confortablement, lancez le minuteur et savourez votre moment de concentration.</p>
+                </div>
+            </aside>
+
+            <section class="timer-card" aria-label="Minuteur Pomodoro">
+                <div class="timer-topline">
+                    <span class="status-dot"></span>
+                    <h1 id="status">Travail</h1>
+                </div>
+                <div class="timer-display" aria-live="polite">
+                    <span id="minutes">25</span><span class="timer-separator">:</span><span id="seconds">00</span>
+                </div>
+                <p class="timer-caption">Respirez, concentrez-vous, avancez.</p>
+                <div class="controls">
+                    <button id="start">Lancer la session</button>
+                    <button id="pause" class="hidden">Mettre en pause</button>
+                    <button id="reset">Réinitialiser</button>
+                </div>
+                <div class="music-player" aria-label="Café Radio">
+                    <div class="music-heading">
+                        <span class="music-pulse" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                        <div><p>Café Radio</p><strong id="music-track">Radio Café</strong></div>
+                    </div>
+                    <div class="music-actions">
+                        <button id="music-toggle" class="music-toggle" aria-pressed="false">▶ Écouter</button>
+                    </div>
+                    <div class="volume-control">
+                        <span aria-hidden="true">♬</span>
+                        <input id="music-volume" type="range" min="0" max="100" value="35" aria-label="Volume de la musique">
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section class="settings" aria-label="Réglages des durées">
+            <div class="setting-group">
+                <label for="work-input">Travail</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="work-input" data-action="minus" aria-label="Réduire le temps de travail">−</button>
+                    <input type="number" id="work-input" value="25" min="1" max="60" aria-label="Minutes de travail">
+                    <span class="unit">min</span>
+                    <button class="adjust" data-target="work-input" data-action="plus" aria-label="Augmenter le temps de travail">+</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label for="short-input">Pause courte</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="short-input" data-action="minus" aria-label="Réduire la pause courte">−</button>
+                    <input type="number" id="short-input" value="5" min="1" max="30" aria-label="Minutes de pause courte">
+                    <span class="unit">min</span>
+                    <button class="adjust" data-target="short-input" data-action="plus" aria-label="Augmenter la pause courte">+</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label for="long-input">Pause longue</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="long-input" data-action="minus" aria-label="Réduire la pause longue">−</button>
+                    <input type="number" id="long-input" value="15" min="1" max="60" aria-label="Minutes de pause longue">
+                    <span class="unit">min</span>
+                    <button class="adjust" data-target="long-input" data-action="plus" aria-label="Augmenter la pause longue">+</button>
+                </div>
+            </div>
+            <div class="setting-group cycles-setting">
+                <label for="cycles-input">Cycles</label>
+                <div class="number-control">
+                    <button class="adjust" data-target="cycles-input" data-action="minus" aria-label="Réduire le nombre de cycles">−</button>
+                    <input type="number" id="cycles-input" value="4" min="1" max="10" aria-label="Nombre de cycles">
+                    <span class="unit">fois</span>
+                    <button class="adjust" data-target="cycles-input" data-action="plus" aria-label="Augmenter le nombre de cycles">+</button>
+                </div>
+            </div>
+        </section>
     </div>
     <script src="../../dist/renderer/renderer.js"></script>
 </body>
